@@ -1,956 +1,304 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lartos Cup | Fortnite Duos</title>
-
 <style>
 :root {
-  --bg: #080b14;
-  --panel: #111827;
-  --panel2: #172137;
-  --line: #29354b;
-  --text: #f4f7ff;
-  --muted: #9aa9c2;
-  --blue: #55d6ff;
-  --purple: #8a6cff;
-  --gold: #ffd66b;
-  --green: #73e0a1;
-  --red: #ff6b83;
+  --bg:#0b0f14;
+  --panel:#141a21;
+  --line:#2b3542;
+  --text:#f1f5f9;
+  --muted:#93a1b2;
+  --green:#9bdc28;
 }
-
-* {
-  box-sizing: border-box;
-}
-
+* { box-sizing:border-box; }
 body {
-  margin: 0;
-  background: radial-gradient(ellipse at top, #182344 0, #080b14 55%);
-  color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
-  min-height: 100vh;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial, sans-serif;
 }
-
-button, input, select {
-  font: inherit;
+header {
+  background:#10151b;
+  border-bottom:1px solid var(--line);
+  padding:18px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
-
+.logo { font-size:22px; font-weight:900; }
+.logo span { color:var(--green); }
 button {
-  cursor: pointer;
+  cursor:pointer;
+  border:0;
+  border-radius:4px;
+  padding:11px 15px;
+  font-weight:bold;
 }
-
-.topbar {
-  min-height: 76px;
-  border-bottom: 1px solid #25304a;
-  background: rgba(8, 11, 20, .92);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px clamp(16px, 4vw, 54px);
-  position: sticky;
-  top: 0;
-  z-index: 5;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: 900;
-  letter-spacing: .08em;
-}
-
-.logo {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--blue), var(--purple));
-  display: grid;
-  place-items: center;
-  color: #08101c;
-  font-size: 22px;
-}
-
-.brand small {
-  display: block;
-  color: var(--muted);
-  font-size: 10px;
-  letter-spacing: .2em;
-  margin-top: 3px;
-}
-
-.admin-btn {
-  border: 1px solid #465675;
-  background: #151d30;
-  color: white;
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-weight: 750;
-}
-
-.admin-btn:hover {
-  border-color: var(--blue);
-  color: var(--blue);
-}
-
-main {
-  max-width: 1120px;
-  margin: auto;
-  padding: 42px 20px 70px;
-}
-
+.admin { background:#29333e; color:white; }
+main { max-width:1150px; margin:auto; padding:28px 18px; }
 .hero {
-  text-align: center;
-  padding: 22px 0 30px;
+  background:linear-gradient(110deg,#202c35,#11171e);
+  border:1px solid var(--line);
+  padding:30px;
+  border-radius:7px;
 }
-
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid #35435e;
-  background: #111a2b;
-  border-radius: 99px;
-  padding: 7px 12px;
-  color: #b9c7e1;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-
-.live-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 12px var(--green);
-}
-
-h1 {
-  font-size: clamp(35px, 6vw, 64px);
-  line-height: 1;
-  margin: 20px 0 12px;
-  letter-spacing: -.055em;
-}
-
-h1 span {
-  background: linear-gradient(90deg, var(--blue), #b8a5ff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.subtitle {
-  color: var(--muted);
-  margin: 0;
-  font-size: 15px;
-}
-
+.tag { color:var(--green); font-size:12px; font-weight:bold; }
+h1 { font-size:clamp(30px,5vw,48px); margin:14px 0; }
+h1 span { color:var(--green); }
+.muted { color:var(--muted); }
 .stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin: 24px 0;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin:18px 0 28px;
 }
-
-.stat {
-  border: 1px solid var(--line);
-  background: linear-gradient(145deg, #151e31, #101624);
-  border-radius: 15px;
-  padding: 17px;
-  text-align: center;
+.stat,.panel {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:6px;
 }
-
-.stat strong {
-  display: block;
-  font-size: 25px;
+.stat { padding:18px; }
+.stat strong { display:block; font-size:27px; }
+.stat small {
+  color:var(--muted);
+  display:block;
+  margin-top:7px;
+  font-weight:bold;
 }
-
-.stat span {
-  display: block;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  margin-top: 5px;
+h2 { font-size:19px; }
+.panel { overflow:hidden; }
+.panel-title {
+  padding:17px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
 }
-
-.panel {
-  border: 1px solid var(--line);
-  background: rgba(17, 24, 39, .94);
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 20px 70px #0002;
-}
-
-.panel-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 20px 22px;
-  border-bottom: 1px solid var(--line);
-  flex-wrap: wrap;
-}
-
-.panel-head h2 {
-  margin: 0;
-  font-size: 18px;
-}
-
-.panel-head p {
-  margin: 5px 0 0;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.badge {
-  font-size: 11px;
-  font-weight: 800;
-  color: var(--blue);
-  border: 1px solid #2a5065;
-  background: #102638;
-  padding: 7px 10px;
-  border-radius: 8px;
-}
-
-.table-wrap {
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 570px;
-}
-
+.live { color:var(--green); font-size:11px; font-weight:bold; }
+.table-wrap { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; min-width:550px; }
 th {
-  text-align: left;
-  color: #8f9db8;
-  font-size: 10px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  padding: 15px 18px;
-  background: #0d1422;
+  text-align:left;
+  padding:15px;
+  background:#10161d;
+  color:var(--muted);
+  font-size:11px;
 }
-
-td {
-  padding: 16px 18px;
-  border-top: 1px solid #222d42;
-  font-size: 14px;
+td { padding:16px 15px; border-top:1px solid var(--line); }
+tr:hover { background:#ffffff08; }
+.points { color:var(--green); font-weight:900; font-size:18px; }
+.rank { font-weight:bold; }
+.empty { padding:30px; text-align:center; color:var(--muted); }
+#adminPanel { display:none; margin-top:22px; }
+#adminPanel.open { display:block; }
+.admin-content { padding:18px; }
+input,select {
+  display:block;
+  width:100%;
+  margin:7px 0 15px;
+  padding:12px;
+  background:#0b0f14;
+  color:white;
+  border:1px solid #354252;
+  border-radius:4px;
 }
-
-tbody tr:hover {
-  background: #ffffff05;
-}
-
-.rank {
-  width: 65px;
-  color: #9aa9c2;
-  font-weight: 850;
-}
-
-.rank.gold { color: var(--gold); }
-.rank.silver { color: #c8d5e5; }
-.rank.bronze { color: #dba47e; }
-
-.team {
-  font-weight: 800;
-}
-
-.points {
-  font-weight: 900;
-  font-size: 17px;
-  color: var(--blue);
-}
-
-.empty {
-  text-align: center;
-  padding: 42px 18px;
-  color: var(--muted);
-}
-
-.footer {
-  text-align: center;
-  color: #66748e;
-  font-size: 11px;
-  margin-top: 18px;
-}
-
-.admin-panel {
-  display: none;
-  margin-top: 22px;
-  border: 1px solid #3a4562;
-  background: #111827;
-  border-radius: 18px;
-  padding: 20px;
-}
-
-.admin-panel.open {
-  display: block;
-}
-
-.admin-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.admin-title h2 {
-  margin: 0;
-  font-size: 20px;
-}
-
-.admin-title p {
-  color: var(--muted);
-  font-size: 12px;
-  margin: 6px 0 0;
-}
-
-.admin-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 18px;
-}
-
-.admin-card {
-  background: #0d1422;
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  padding: 16px;
-}
-
-.admin-card h3 {
-  font-size: 14px;
-  margin: 0 0 12px;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin: 9px 0;
-}
-
-.field label {
-  font-size: 11px;
-  color: #aab7ce;
-  font-weight: 750;
-}
-
-.field input, .field select {
-  width: 100%;
-  background: #111a2b;
-  color: white;
-  border: 1px solid #35415b;
-  border-radius: 8px;
-  padding: 10px;
-  outline: none;
-}
-
-.field input:focus, .field select:focus {
-  border-color: var(--blue);
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.primary {
-  background: linear-gradient(90deg, #46cfff, #8d79ff);
-  border: 0;
-  color: #07111f;
-  font-weight: 900;
-  border-radius: 9px;
-  padding: 11px 14px;
-  width: 100%;
-  margin-top: 7px;
-}
-
-.secondary {
-  background: #1b263b;
-  border: 1px solid #3a4865;
-  color: #e8efff;
-  border-radius: 9px;
-  padding: 9px 12px;
-  font-weight: 750;
-}
-
-.danger {
-  background: #351925;
-  border: 1px solid #733347;
-  color: #ffb1bf;
-  border-radius: 8px;
-  padding: 7px 9px;
-  font-size: 12px;
-}
-
-.admin-list {
-  margin-top: 16px;
-  display: grid;
-  gap: 8px;
-}
-
-.admin-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  background: #111a2b;
-  border: 1px solid #27334a;
-  border-radius: 9px;
-  padding: 10px 12px;
-  font-size: 13px;
-}
-
-.message {
-  color: var(--green);
-  font-size: 12px;
-  min-height: 18px;
-  margin-top: 8px;
-}
-
-.notice {
-  font-size: 12px;
-  color: #e9cc8b;
-  line-height: 1.55;
-  border: 1px solid #65512d;
-  background: #2a2114;
-  border-radius: 10px;
-  padding: 12px;
-  margin-top: 14px;
-}
-
-@media (max-width: 650px) {
-  main { padding: 25px 12px 50px; }
-  .topbar { padding: 12px 13px; }
-  .brand { font-size: 12px; }
-  .logo { width: 36px; height: 36px; }
-  .stats { gap: 7px; }
-  .stat { padding: 13px 6px; }
-  .stat strong { font-size: 21px; }
-  .stat span { font-size: 9px; }
-  .admin-grid { grid-template-columns: 1fr; }
-  .panel-head { padding: 17px; }
-  .hero { padding-top: 15px; }
+label { color:var(--muted); font-size:12px; font-weight:bold; }
+.green { background:var(--green); color:#10151b; }
+.entry { padding:12px 0; border-bottom:1px solid var(--line); }
+footer { text-align:center; color:var(--muted); font-size:12px; padding:25px; }
+@media(max-width:600px) {
+  .stats { grid-template-columns:1fr; }
+  header { padding:15px; }
+  .hero { padding:20px; }
 }
 </style>
 </head>
-
 <body>
-
-<header class="topbar">
-  <div class="brand">
-    <div class="logo">⚡</div>
-    <div>
-      LARTOS CUP
-      <small>FORTNITE • DUOS</small>
-    </div>
-  </div>
-
-  <button class="admin-btn" id="adminToggle">🔒 Admin</button>
+<header>
+  <div class="logo">⚡ LARTOS <span>CUP</span></div>
+  <button class="admin" id="adminBtn">🔒 ADMIN</button>
 </header>
 
 <main>
-
   <section class="hero">
-    <div class="eyebrow">
-      <span class="live-dot"></span>
-      Tournament leaderboard
-    </div>
-
-    <h1>DUO <span>LEADERBOARD</span></h1>
-    <p class="subtitle">6 games · Placement points + eliminations</p>
+    <div class="tag">● TOURNOI FORTNITE DUO</div>
+    <h1>LARTOS CUP <span>RANKING</span></h1>
+    <p class="muted">Classement officiel · 6 parties · Placement et éliminations</p>
   </section>
 
   <section class="stats">
-    <div class="stat">
-      <strong id="statDuos">0</strong>
-      <span>Registered duos</span>
-    </div>
-
-    <div class="stat">
-      <strong id="statGames">0 / 6</strong>
-      <span>Games played</span>
-    </div>
-
-    <div class="stat">
-      <strong id="statKills">0</strong>
-      <span>Total eliminations</span>
-    </div>
+    <div class="stat"><strong id="duoCount">0</strong><small>DUOS INSCRITS</small></div>
+    <div class="stat"><strong id="killCount">0</strong><small>ÉLIMINATIONS</small></div>
+    <div class="stat"><strong id="gameCount">0 / 6</strong><small>PARTIES JOUÉES</small></div>
   </section>
 
+  <h2>🏆 Classement général <span class="live">● LIVE</span></h2>
   <section class="panel">
-    <div class="panel-head">
-      <div>
-        <h2>🏆 Overall standings</h2>
-        <p>Points accumulated across all 6 games</p>
-      </div>
-
-      <span class="badge">CUP RANKING</span>
+    <div class="panel-title">
+      <strong>Résultats du tournoi</strong>
+      <span class="muted">Lartos Cup</span>
     </div>
-
     <div class="table-wrap">
       <table>
         <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Duo</th>
-            <th>Games</th>
-            <th>Wins</th>
-            <th>Kills</th>
-            <th>Points</th>
-          </tr>
+          <tr><th>#</th><th>ÉQUIPE</th><th>PARTIES</th><th>VICTOIRES</th><th>ÉLIMS</th><th>POINTS</th></tr>
         </thead>
-
-        <tbody id="leaderboard"></tbody>
+        <tbody id="ranking"></tbody>
       </table>
-
-      <div class="empty" id="emptyState">
-        No results yet.<br>
-        <span style="font-size:12px">
-          The leaderboard will appear here when results are added.
-        </span>
-      </div>
+      <div id="empty" class="empty">Aucune équipe pour le moment.</div>
     </div>
   </section>
 
-  <section class="admin-panel" id="adminPanel">
+  <section class="panel" id="adminPanel">
+    <div class="admin-content">
+      <h2>⚙️ Administration</h2>
+      <h3>Inscrire un duo</h3>
+      <label>PSEUDO JOUEUR 1</label>
+      <input id="p1" placeholder="Pseudo Fortnite">
+      <label>PSEUDO JOUEUR 2</label>
+      <input id="p2" placeholder="Pseudo Fortnite">
+      <button class="green" id="addDuo">Ajouter le duo</button>
 
-    <div class="admin-title">
-      <div>
-        <h2>🔧 Admin dashboard</h2>
-        <p>Add duos and enter results for each game.</p>
-      </div>
-
-      <button class="secondary" id="logout">Lock admin</button>
+      <h3>Ajouter un résultat</h3>
+      <label>ÉQUIPE</label>
+      <select id="teamSelect"></select>
+      <label>PARTIE</label>
+      <select id="gameSelect"></select>
+      <label>PLACE FINALE</label>
+      <input id="placement" type="number" min="1" max="50" placeholder="Ex : 1">
+      <label>ÉLIMINATIONS</label>
+      <input id="kills" type="number" min="0" placeholder="Ex : 8">
+      <button class="green" id="save">Enregistrer le résultat</button>
+      <p id="message" class="muted"></p>
+      <div id="teamList"></div>
     </div>
-
-    <div class="admin-grid">
-
-      <div class="admin-card">
-        <h3>➕ Register a duo</h3>
-
-        <div class="field">
-          <label>PLAYER 1</label>
-          <input id="player1" placeholder="Player 1 name">
-        </div>
-
-        <div class="field">
-          <label>PLAYER 2</label>
-          <input id="player2" placeholder="Player 2 name">
-        </div>
-
-        <button class="primary" id="addDuo">Add duo</button>
-      </div>
-
-      <div class="admin-card">
-        <h3>🎮 Enter game result</h3>
-
-        <div class="form-row">
-          <div class="field">
-            <label>GAME</label>
-            <select id="game"></select>
-          </div>
-
-          <div class="field">
-            <label>DUO</label>
-            <select id="duoSelect"></select>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="field">
-            <label>PLACEMENT</label>
-            <input id="placement" type="number" min="1" max="50" placeholder="e.g. 1">
-          </div>
-
-          <div class="field">
-            <label>ELIMINATIONS</label>
-            <input id="kills" type="number" min="0" placeholder="e.g. 8">
-          </div>
-        </div>
-
-        <button class="primary" id="saveResult">Save result</button>
-
-        <div class="message" id="message" aria-live="polite"></div>
-      </div>
-
-    </div>
-
-    <div class="admin-card" style="margin-top:16px">
-      <h3>👥 Registered duos</h3>
-      <div class="admin-list" id="duoList"></div>
-    </div>
-
-    <div class="notice">
-      <strong>Important:</strong>
-      This GitHub Pages version saves data in this browser only.
-      The admin passcode is only a basic screen lock, not secure authentication.
-      To make results sync for every visitor and protect admin access properly,
-      connect a database such as Supabase or Firebase.
-    </div>
-
   </section>
-
-  <p class="footer">
-    LARTOS CUP · Community tournament · Local demo
-  </p>
-
 </main>
+<footer>LARTOS CUP · FORTNITE DUOS</footer>
 
 <script>
 (() => {
-
-  // CHANGE THIS CODE BEFORE USING YOUR WEBSITE
   const ADMIN_CODE = "1234";
-
-  const GAMES = 6;
-
-  // Example scoring table: placement points for places 1 to 25
-  const PLACEMENT_POINTS = [
-    65, 56, 52, 48, 44,
-    40, 38, 36, 34, 32,
-    30, 28, 26, 24, 22,
-    20, 18, 16, 14, 12,
-    10, 8, 6, 4, 2
-  ];
-
-  const POINTS_PER_KILL = 4;
-  const STORAGE_KEY = "lartos-cup-leaderboard-v2";
-
-  const $ = id => document.getElementById(id);
-
-  let state = {
-    duos: [],
-    results: {}
-  };
+  const KEY = "lartos-cup-data";
+  const placementPoints = [65,56,52,48,44,40,38,36,34,32,30,28,26,24,22,20,18,16,14,12,10,8,6,4,2];
+  let data = { teams: [], results: {} };
 
   try {
-    const saved = JSON.parse(
-      localStorage.getItem(STORAGE_KEY) || "null"
-    );
+    const saved = JSON.parse(localStorage.getItem(KEY));
+    if (saved && saved.teams && saved.results) data = saved;
+  } catch(e) {}
 
-    if (saved && Array.isArray(saved.duos) && saved.results) {
-      state = saved;
-    }
-  } catch (error) {
-    console.error("Unable to load saved data", error);
+  const $ = id => document.getElementById(id);
+  for (let i=1;i<=6;i++) {
+    const o = document.createElement("option");
+    o.value = i;
+    o.textContent = "Partie " + i;
+    $("gameSelect").appendChild(o);
   }
 
-  let isAdmin = false;
-
-  function persist() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch (error) {
-      alert("Could not save data in this browser.");
-    }
-  }
-
-  function makeId() {
-    return Date.now().toString(36) +
-      Math.random().toString(36).slice(2, 8);
-  }
-
-  function score(result) {
-    const placementPoints =
-      PLACEMENT_POINTS[result.placement - 1] || 0;
-
-    return placementPoints +
-      result.kills * POINTS_PER_KILL;
-  }
-
-  function addOption(select, value, text) {
-    const option = document.createElement("option");
-    option.value = value;
-    option.textContent = text;
-    select.appendChild(option);
-  }
-
-  for (let game = 1; game <= GAMES; game++) {
-    addOption($("game"), String(game), "Game " + game);
-  }
-
-  $("adminToggle").addEventListener("click", () => {
-    if (isAdmin) {
-      setAdmin(false);
+  $("adminBtn").onclick = () => {
+    if ($("adminPanel").classList.contains("open")) {
+      $("adminPanel").classList.remove("open");
       return;
     }
-
-    const entered = prompt("Enter admin passcode:");
-
-    if (entered === ADMIN_CODE) {
-      setAdmin(true);
-    } else if (entered !== null) {
-      alert("Incorrect passcode.");
+    if (prompt("Code administrateur :") === ADMIN_CODE) {
+      $("adminPanel").classList.add("open");
+    } else {
+      alert("Code incorrect.");
     }
-  });
+  };
 
-  $("logout").addEventListener("click", () => {
-    setAdmin(false);
-  });
-
-  function setAdmin(value) {
-    isAdmin = value;
-
-    $("adminPanel").classList.toggle("open", value);
-
-    $("adminToggle").textContent = value
-      ? "🔓 Admin unlocked"
-      : "🔒 Admin";
-
-    if (value) {
-      $("adminPanel").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }
+  function saveData() {
+    localStorage.setItem(KEY, JSON.stringify(data));
   }
 
-  $("addDuo").addEventListener("click", () => {
-    const player1 = $("player1").value.trim();
-    const player2 = $("player2").value.trim();
-
-    if (!player1 || !player2) {
-      alert("Enter both player names.");
-      return;
-    }
-
-    state.duos.push({
-      id: makeId(),
-      p1: player1,
-      p2: player2
-    });
-
-    $("player1").value = "";
-    $("player2").value = "";
-
-    persist();
+  $("addDuo").onclick = () => {
+    const a = $("p1").value.trim();
+    const b = $("p2").value.trim();
+    if (!a || !b) return alert("Entre les deux pseudos.");
+    data.teams.push({id:Date.now().toString(),a,b});
+    $("p1").value = "";
+    $("p2").value = "";
+    saveData();
     render();
+  };
 
-    $("message").textContent = "Duo added successfully.";
-  });
-
-  $("saveResult").addEventListener("click", () => {
-    const game = Number($("game").value);
-    const duoId = $("duoSelect").value;
-
-    const placementText = $("placement").value;
-    const killsText = $("kills").value;
-
-    const placement = Number(placementText);
-    const kills = Number(killsText);
-
-    if (
-      !duoId ||
-      placementText === "" ||
-      killsText === "" ||
-      !Number.isInteger(placement) ||
-      placement < 1 ||
-      placement > 50 ||
-      !Number.isInteger(kills) ||
-      kills < 0
-    ) {
-      alert(
-        "Enter a duo, a placement from 1 to 50, and a non-negative kill count."
-      );
-      return;
+  $("save").onclick = () => {
+    const id = $("teamSelect").value;
+    const game = $("gameSelect").value;
+    const p = Number($("placement").value);
+    const k = Number($("kills").value);
+    if (!id || !$("placement").value || $("kills").value === "" || p < 1 || p > 50 || k < 0) {
+      return alert("Vérifie l'équipe, la place et les éliminations.");
     }
-
-    state.results[game + "_" + duoId] = {
-      placement,
-      kills
-    };
-
-    persist();
+    data.results[game+"_"+id] = {p,k};
+    saveData();
     render();
-
-    $("message").textContent =
-      "Result saved for Game " + game + ".";
-  });
-
-  function getStats(duo) {
-    let points = 0;
-    let kills = 0;
-    let wins = 0;
-    let played = 0;
-
-    for (let game = 1; game <= GAMES; game++) {
-      const result = state.results[game + "_" + duo.id];
-
-      if (!result) continue;
-
-      played++;
-      points += score(result);
-      kills += result.kills;
-
-      if (result.placement === 1) {
-        wins++;
-      }
-    }
-
-    return {
-      ...duo,
-      points,
-      kills,
-      wins,
-      played
-    };
-  }
-
-  function addCell(row, value, className = "") {
-    const td = document.createElement("td");
-    td.textContent = value;
-
-    if (className) {
-      td.className = className;
-    }
-
-    row.appendChild(td);
-    return td;
-  }
+    $("message").textContent = "Résultat enregistré !";
+  };
 
   function render() {
-    const duos = state.duos
-      .map(getStats)
-      .sort((a, b) =>
-        b.points - a.points ||
-        b.wins - a.wins ||
-        b.kills - a.kills ||
-        (a.p1 + " " + a.p2).localeCompare(
-          b.p1 + " " + b.p2
-        )
-      );
-
-    $("statDuos").textContent = state.duos.length;
-
-    const gamesPlayed = new Set(
-      Object.keys(state.results).map(key =>
-        key.split("_")[0]
-      )
-    ).size;
-
-    $("statGames").textContent =
-      gamesPlayed + " / " + GAMES;
-
-    $("statKills").textContent = duos.reduce(
-      (sum, duo) => sum + duo.kills,
-      0
-    );
-
-    const leaderboard = $("leaderboard");
-    leaderboard.replaceChildren();
-
-    $("emptyState").style.display =
-      duos.length ? "none" : "block";
-
-    duos.forEach((duo, index) => {
-      const row = document.createElement("tr");
-      const rank = index + 1;
-
-      let rankText = String(rank);
-      let rankClass = "rank";
-
-      if (rank === 1) {
-        rankText = "🥇 1";
-        rankClass += " gold";
-      } else if (rank === 2) {
-        rankText = "🥈 2";
-        rankClass += " silver";
-      } else if (rank === 3) {
-        rankText = "🥉 3";
-        rankClass += " bronze";
+    const rows = data.teams.map(t => {
+      let points=0,kills=0,wins=0,played=0;
+      for(let g=1;g<=6;g++) {
+        const r=data.results[g+"_"+t.id];
+        if(!r) continue;
+        played++;
+        points+=(placementPoints[r.p-1]||0)+r.k*4;
+        kills+=r.k;
+        if(r.p===1) wins++;
       }
+      return {...t,points,kills,wins,played};
+    }).sort((a,b)=>b.points-a.points);
 
-      addCell(row, rankText, rankClass);
-      addCell(row, duo.p1 + " / " + duo.p2, "team");
-      addCell(row, duo.played + " / " + GAMES);
-      addCell(row, duo.wins);
-      addCell(row, duo.kills);
-      addCell(row, duo.points, "points");
+    $("duoCount").textContent=data.teams.length;
+    $("killCount").textContent=rows.reduce((s,t)=>s+t.kills,0);
+    $("gameCount").textContent=new Set(Object.keys(data.results).map(k=>k.split("_")[0])).size+" / 6";
+    $("ranking").replaceChildren();
+    $("empty").style.display=rows.length?"none":"block";
 
-      leaderboard.appendChild(row);
-    });
-
-    const duoSelect = $("duoSelect");
-    const previousSelection = duoSelect.value;
-
-    duoSelect.replaceChildren();
-
-    state.duos.forEach(duo => {
-      addOption(
-        duoSelect,
-        duo.id,
-        duo.p1 + " / " + duo.p2
-      );
-    });
-
-    if (state.duos.some(duo => duo.id === previousSelection)) {
-      duoSelect.value = previousSelection;
-    }
-
-    const duoList = $("duoList");
-    duoList.replaceChildren();
-
-    if (!state.duos.length) {
-      const paragraph = document.createElement("p");
-      paragraph.className = "subtitle";
-      paragraph.textContent = "No duos registered yet.";
-      duoList.appendChild(paragraph);
-    }
-
-    state.duos.forEach(duo => {
-      const row = document.createElement("div");
-      row.className = "admin-row";
-
-      const label = document.createElement("span");
-      label.textContent = duo.p1 + " / " + duo.p2;
-
-      const deleteButton = document.createElement("button");
-      deleteButton.className = "danger";
-      deleteButton.textContent = "Remove";
-
-      deleteButton.addEventListener("click", () => {
-        const confirmed = confirm(
-          "Remove " + duo.p1 + " / " + duo.p2 +
-          " and all their results?"
-        );
-
-        if (!confirmed) return;
-
-        state.duos = state.duos.filter(
-          item => item.id !== duo.id
-        );
-
-        Object.keys(state.results).forEach(key => {
-          if (key.endsWith("_" + duo.id)) {
-            delete state.results[key];
-          }
-        });
-
-        persist();
-        render();
+    rows.forEach((t,i)=>{
+      const tr=document.createElement("tr");
+      [i+1,t.a+" / "+t.b,t.played+" / 6",t.wins,t.kills,t.points].forEach((v,j)=>{
+        const td=document.createElement("td");
+        td.textContent=j===0 && i<3 ? ["🥇 ","🥈 ","🥉 "][i]+v : v;
+        if(j===5) td.className="points";
+        if(j===0) td.className="rank";
+        tr.appendChild(td);
       });
+      $("ranking").appendChild(tr);
+    });
 
-      row.append(label, deleteButton);
-      duoList.appendChild(row);
+    $("teamSelect").replaceChildren();
+    rows.forEach(t=>{
+      const o=document.createElement("option");
+      o.value=t.id;o.textContent=t.a+" / "+t.b;
+      $("teamSelect").appendChild(o);
+    });
+
+    $("teamList").replaceChildren();
+    rows.forEach(t=>{
+      const div=document.createElement("div");
+      div.className="entry";
+      div.textContent=t.a+" / "+t.b+" — "+t.points+" points ";
+      const btn=document.createElement("button");
+      btn.className="admin";btn.textContent="Supprimer";
+      btn.onclick=()=>{
+        if(!confirm("Supprimer ce duo et ses résultats ?")) return;
+        data.teams=data.teams.filter(x=>x.id!==t.id);
+        Object.keys(data.results).forEach(k=>{if(k.endsWith("_"+t.id))delete data.results[k];});
+        saveData();render();
+      };
+      div.appendChild(btn);$("teamList").appendChild(div);
     });
   }
-
   render();
-
 })();
 </script>
-
 </body>
 </html>
