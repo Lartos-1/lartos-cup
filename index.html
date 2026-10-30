@@ -1,304 +1,313 @@
-
+```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lartos Cup | Fortnite Duos</title>
+
 <style>
-:root {
-  --bg:#0b0f14;
-  --panel:#141a21;
-  --line:#2b3542;
-  --text:#f1f5f9;
-  --muted:#93a1b2;
-  --green:#9bdc28;
+* {
+    box-sizing: border-box;
 }
-* { box-sizing:border-box; }
+
 body {
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial, sans-serif;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #080b10;
+    color: white;
 }
+
 header {
-  background:#10151b;
-  border-bottom:1px solid var(--line);
-  padding:18px 5%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+    text-align: center;
+    padding: 35px 15px;
+    background: linear-gradient(135deg, #111923, #182b22);
+    border-bottom: 2px solid #6dff8b;
 }
-.logo { font-size:22px; font-weight:900; }
-.logo span { color:var(--green); }
-button {
-  cursor:pointer;
-  border:0;
-  border-radius:4px;
-  padding:11px 15px;
-  font-weight:bold;
+
+header h1 {
+    margin: 0;
+    font-size: clamp(30px, 6vw, 52px);
+    color: #6dff8b;
+    text-transform: uppercase;
+    letter-spacing: 3px;
 }
-.admin { background:#29333e; color:white; }
-main { max-width:1150px; margin:auto; padding:28px 18px; }
-.hero {
-  background:linear-gradient(110deg,#202c35,#11171e);
-  border:1px solid var(--line);
-  padding:30px;
-  border-radius:7px;
+
+header p {
+    color: #c0c8d2;
 }
-.tag { color:var(--green); font-size:12px; font-weight:bold; }
-h1 { font-size:clamp(30px,5vw,48px); margin:14px 0; }
-h1 span { color:var(--green); }
-.muted { color:var(--muted); }
-.stats {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  margin:18px 0 28px;
+
+.container {
+    width: min(1100px, 94%);
+    margin: 30px auto;
 }
-.stat,.panel {
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:6px;
+
+.card {
+    background: #111720;
+    border: 1px solid #263342;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
 }
-.stat { padding:18px; }
-.stat strong { display:block; font-size:27px; }
-.stat small {
-  color:var(--muted);
-  display:block;
-  margin-top:7px;
-  font-weight:bold;
+
+h2 {
+    color: #6dff8b;
+    margin-top: 0;
 }
-h2 { font-size:19px; }
-.panel { overflow:hidden; }
-.panel-title {
-  padding:17px;
-  border-bottom:1px solid var(--line);
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
 }
-.live { color:var(--green); font-size:11px; font-weight:bold; }
-.table-wrap { overflow-x:auto; }
-table { width:100%; border-collapse:collapse; min-width:550px; }
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+th, td {
+    padding: 14px 10px;
+    text-align: center;
+    border-bottom: 1px solid #263342;
+}
+
 th {
-  text-align:left;
-  padding:15px;
-  background:#10161d;
-  color:var(--muted);
-  font-size:11px;
+    background: #1b2733;
+    color: #6dff8b;
 }
-td { padding:16px 15px; border-top:1px solid var(--line); }
-tr:hover { background:#ffffff08; }
-.points { color:var(--green); font-weight:900; font-size:18px; }
-.rank { font-weight:bold; }
-.empty { padding:30px; text-align:center; color:var(--muted); }
-#adminPanel { display:none; margin-top:22px; }
-#adminPanel.open { display:block; }
-.admin-content { padding:18px; }
-input,select {
-  display:block;
-  width:100%;
-  margin:7px 0 15px;
-  padding:12px;
-  background:#0b0f14;
-  color:white;
-  border:1px solid #354252;
-  border-radius:4px;
+
+tbody tr:hover {
+    background: #18232d;
 }
-label { color:var(--muted); font-size:12px; font-weight:bold; }
-.green { background:var(--green); color:#10151b; }
-.entry { padding:12px 0; border-bottom:1px solid var(--line); }
-footer { text-align:center; color:var(--muted); font-size:12px; padding:25px; }
-@media(max-width:600px) {
-  .stats { grid-template-columns:1fr; }
-  header { padding:15px; }
-  .hero { padding:20px; }
+
+.rank {
+    font-weight: bold;
+    color: #6dff8b;
+}
+
+.score {
+    font-size: 18px;
+    font-weight: bold;
+    color: #6dff8b;
+}
+
+button {
+    background: #6dff8b;
+    color: #08110b;
+    font-weight: bold;
+    border: none;
+    padding: 11px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #45df68;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 7px 0 14px;
+    border-radius: 6px;
+    border: 1px solid #344354;
+    background: #080d13;
+    color: white;
+}
+
+label {
+    display: block;
+    color: #c5ced8;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.hidden {
+    display: none;
+}
+
+.rules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+.rule {
+    background: #18232d;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.rule strong {
+    display: block;
+    color: #6dff8b;
+    font-size: 24px;
+    margin-top: 8px;
+}
+
+.muted {
+    color: #9ba9b8;
+    font-size: 13px;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.delete-btn {
+    background: #ff6464;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #788696;
 }
 </style>
 </head>
+
 <body>
+
 <header>
-  <div class="logo">⚡ LARTOS <span>CUP</span></div>
-  <button class="admin" id="adminBtn">🔒 ADMIN</button>
+    <h1>🏆 Lartos Cup</h1>
+    <p>FORTNITE DUOS • CLASSEMENT OFFICIEL</p>
 </header>
 
-<main>
-  <section class="hero">
-    <div class="tag">● TOURNOI FORTNITE DUO</div>
-    <h1>LARTOS CUP <span>RANKING</span></h1>
-    <p class="muted">Classement officiel · 6 parties · Placement et éliminations</p>
-  </section>
+<main class="container">
 
-  <section class="stats">
-    <div class="stat"><strong id="duoCount">0</strong><small>DUOS INSCRITS</small></div>
-    <div class="stat"><strong id="killCount">0</strong><small>ÉLIMINATIONS</small></div>
-    <div class="stat"><strong id="gameCount">0 / 6</strong><small>PARTIES JOUÉES</small></div>
-  </section>
+    <section class="card">
+        <h2>📊 Classement des duos</h2>
+        <p class="muted">
+            Les scores sont calculés automatiquement selon le placement et les éliminations.
+        </p>
 
-  <h2>🏆 Classement général <span class="live">● LIVE</span></h2>
-  <section class="panel">
-    <div class="panel-title">
-      <strong>Résultats du tournoi</strong>
-      <span class="muted">Lartos Cup</span>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>#</th><th>ÉQUIPE</th><th>PARTIES</th><th>VICTOIRES</th><th>ÉLIMS</th><th>POINTS</th></tr>
-        </thead>
-        <tbody id="ranking"></tbody>
-      </table>
-      <div id="empty" class="empty">Aucune équipe pour le moment.</div>
-    </div>
-  </section>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Place</th>
+                        <th>Duo</th>
+                        <th>Placement</th>
+                        <th>Kills</th>
+                        <th>Points placement</th>
+                        <th>Score total</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard">
+                    <tr>
+                        <td colspan="6">Aucun résultat pour le moment.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-  <section class="panel" id="adminPanel">
-    <div class="admin-content">
-      <h2>⚙️ Administration</h2>
-      <h3>Inscrire un duo</h3>
-      <label>PSEUDO JOUEUR 1</label>
-      <input id="p1" placeholder="Pseudo Fortnite">
-      <label>PSEUDO JOUEUR 2</label>
-      <input id="p2" placeholder="Pseudo Fortnite">
-      <button class="green" id="addDuo">Ajouter le duo</button>
+    <section class="card">
+        <h2>🎯 Barème des points</h2>
 
-      <h3>Ajouter un résultat</h3>
-      <label>ÉQUIPE</label>
-      <select id="teamSelect"></select>
-      <label>PARTIE</label>
-      <select id="gameSelect"></select>
-      <label>PLACE FINALE</label>
-      <input id="placement" type="number" min="1" max="50" placeholder="Ex : 1">
-      <label>ÉLIMINATIONS</label>
-      <input id="kills" type="number" min="0" placeholder="Ex : 8">
-      <button class="green" id="save">Enregistrer le résultat</button>
-      <p id="message" class="muted"></p>
-      <div id="teamList"></div>
-    </div>
-  </section>
+        <div class="rules">
+            <div class="rule">Chaque kill<strong>+1 point</strong></div>
+            <div class="rule">Top 20 à Top 5<strong>+1 point</strong></div>
+            <div class="rule">Top 4<strong>+2 points</strong></div>
+            <div class="rule">Top 3<strong>+4 points</strong></div>
+            <div class="rule">Top 2<strong>+6 points</strong></div>
+            <div class="rule">Top 1 🥇<strong>+9 points</strong></div>
+        </div>
+        <p class="muted">
+            Score total = points de placement + kills.
+        </p>
+    </section>
+
+    <section class="card" id="login">
+        <h2>🔐 Administration</h2>
+        <p>Entre le code administrateur pour ajouter ou modifier les résultats.</p>
+
+        <label for="adminCode">Code administrateur</label>
+        <input type="password" id="adminCode" placeholder="Code administrateur">
+
+        <button onclick="login()">Se connecter</button>
+        <p id="loginMessage" class="muted"></p>
+    </section>
+
+    <section class="card hidden" id="adminPanel">
+        <h2>⚙️ Ajouter un résultat</h2>
+
+        <form id="resultForm">
+            <div class="form-grid">
+                <div>
+                    <label for="duo">Nom du duo</label>
+                    <input id="duo" type="text" placeholder="Ex : Team Lartos" required>
+                </div>
+
+                <div>
+                    <label for="placement">Placement final</label>
+                    <select id="placement" required>
+                        <option value="">Choisir le placement</option>
+                        <option value="1">Top 1</option>
+                        <option value="2">Top 2</option>
+                        <option value="3">Top 3</option>
+                        <option value="4">Top 4</option>
+                        <option value="5">Top 5</option>
+                        <option value="6">Top 6</option>
+                        <option value="7">Top 7</option>
+                        <option value="8">Top 8</option>
+                        <option value="9">Top 9</option>
+                        <option value="10">Top 10</option>
+                        <option value="11">Top 11</option>
+                        <option value="12">Top 12</option>
+                        <option value="13">Top 13</option>
+                        <option value="14">Top 14</option>
+                        <option value="15">Top 15</option>
+                        <option value="16">Top 16</option>
+                        <option value="17">Top 17</option>
+                        <option value="18">Top 18</option>
+                        <option value="19">Top 19</option>
+                        <option value="20">Top 20</option>
+                        <option value="21">Top 21</option>
+                        <option value="22">Top 22</option>
+                        <option value="23">Top 23</option>
+                        <option value="24">Top 24</option>
+                        <option value="25">Top 25</option>
+                        <option value="26">Top 26 ou plus</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="kills">Nombre de kills du duo</label>
+                    <input id="kills" type="number" min="0" step="1" value="0" required>
+                </div>
+            </div>
+
+            <button type="submit">Ajouter le résultat</button>
+        </form>
+
+        <hr style="border-color:#263342; margin:25px 0;">
+
+        <h2>📝 Gérer les résultats</h2>
+        <div id="adminResults"></div>
+
+        <div class="actions" style="margin-top:20px;">
+            <button type="button" onclick="logout()">Se déconnecter</button>
+            <button type="button" class="delete-btn" onclick="clearResults()">
+                Effacer tous les résultats
+            </button>
+        </div>
+    </section>
+
 </main>
-<footer>LARTOS CUP · FORTNITE DUOS</footer>
+
+<footer>
+    Lartos Cup © 2026 — Fortnite Duos
+</footer>
 
 <script>
-(() => {
-  const ADMIN_CODE = "1234";
-  const KEY = "lartos-cup-data";
-  const placementPoints = [65,56,52,48,44,40,38,36,34,32,30,28,26,24,22,20,18,16,14,12,10,8,6,4,2];
-  let data = { teams: [], results: {} };
-
-  try {
-    const saved = JSON.parse(localStorage.getItem(KEY));
-    if (saved && saved.teams && saved.results) data = saved;
-  } catch(e) {}
-
-  const $ = id => document.getElementById(id);
-  for (let i=1;i<=6;i++) {
-    const o = document.createElement("option");
-    o.value = i;
-    o.textContent = "Partie " + i;
-    $("gameSelect").appendChild(o);
-  }
-
-  $("adminBtn").onclick = () => {
-    if ($("adminPanel").classList.contains("open")) {
-      $("adminPanel").classList.remove("open");
-      return;
-    }
-    if (prompt("Code administrateur :") === ADMIN_CODE) {
-      $("adminPanel").classList.add("open");
-    } else {
-      alert("Code incorrect.");
-    }
-  };
-
-  function saveData() {
-    localStorage.setItem(KEY, JSON.stringify(data));
-  }
-
-  $("addDuo").onclick = () => {
-    const a = $("p1").value.trim();
-    const b = $("p2").value.trim();
-    if (!a || !b) return alert("Entre les deux pseudos.");
-    data.teams.push({id:Date.now().toString(),a,b});
-    $("p1").value = "";
-    $("p2").value = "";
-    saveData();
-    render();
-  };
-
-  $("save").onclick = () => {
-    const id = $("teamSelect").value;
-    const game = $("gameSelect").value;
-    const p = Number($("placement").value);
-    const k = Number($("kills").value);
-    if (!id || !$("placement").value || $("kills").value === "" || p < 1 || p > 50 || k < 0) {
-      return alert("Vérifie l'équipe, la place et les éliminations.");
-    }
-    data.results[game+"_"+id] = {p,k};
-    saveData();
-    render();
-    $("message").textContent = "Résultat enregistré !";
-  };
-
-  function render() {
-    const rows = data.teams.map(t => {
-      let points=0,kills=0,wins=0,played=0;
-      for(let g=1;g<=6;g++) {
-        const r=data.results[g+"_"+t.id];
-        if(!r) continue;
-        played++;
-        points+=(placementPoints[r.p-1]||0)+r.k*4;
-        kills+=r.k;
-        if(r.p===1) wins++;
-      }
-      return {...t,points,kills,wins,played};
-    }).sort((a,b)=>b.points-a.points);
-
-    $("duoCount").textContent=data.teams.length;
-    $("killCount").textContent=rows.reduce((s,t)=>s+t.kills,0);
-    $("gameCount").textContent=new Set(Object.keys(data.results).map(k=>k.split("_")[0])).size+" / 6";
-    $("ranking").replaceChildren();
-    $("empty").style.display=rows.length?"none":"block";
-
-    rows.forEach((t,i)=>{
-      const tr=document.createElement("tr");
-      [i+1,t.a+" / "+t.b,t.played+" / 6",t.wins,t.kills,t.points].forEach((v,j)=>{
-        const td=document.createElement("td");
-        td.textContent=j===0 && i<3 ? ["🥇 ","🥈 ","🥉 "][i]+v : v;
-        if(j===5) td.className="points";
-        if(j===0) td.className="rank";
-        tr.appendChild(td);
-      });
-      $("ranking").appendChild(tr);
-    });
-
-    $("teamSelect").replaceChildren();
-    rows.forEach(t=>{
-      const o=document.createElement("option");
-      o.value=t.id;o.textContent=t.a+" / "+t.b;
-      $("teamSelect").appendChild(o);
-    });
-
-    $("teamList").replaceChildren();
-    rows.forEach(t=>{
-      const div=document.createElement("div");
-      div.className="entry";
-      div.textContent=t.a+" / "+t.b+" — "+t.points+" points ";
-      const btn=document.createElement("button");
-      btn.className="admin";btn.textContent="Supprimer";
-      btn.onclick=()=>{
-        if(!confirm("Supprimer ce duo et ses résultats ?")) return;
-        data.teams=data.teams.filter(x=>x.id!==t.id);
-        Object.keys(data.results).forEach(k=>{if(k.endsWith("_"+t.id))delete data.results[k];});
-        saveData();render();
-      };
-      div.appendChild(btn);$("teamList").appendChild(div);
-    });
-  }
-  render();
-})();
-</script>
-</body>
-</html>
+const ADMIN_CODE = "1234";
+const
+```
