@@ -1,0 +1,442 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lartos Cup | Fortnite Duos</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1020;
+      --panel: #151d32;
+      --accent: #9b7bff;
+      --text: #f5f6ff;
+      --muted: #aab3ca;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: Arial, sans-serif;
+    }
+    header {
+      padding: 30px 16px; text-align: center;
+      background: linear-gradient(135deg,#252052,#111a32);
+      border-bottom: 2px solid var(--accent);
+    }
+    h1 { margin: 0 0 8px; font-size: clamp(28px,5vw,44px); }
+    header p { color: var(--muted); margin: 0; }
+    main { max-width: 1050px; margin: auto; padding: 20px 14px; }
+    .toolbar, .panel, .scoring {
+      background: var(--panel); padding: 16px; border-radius: 14px;
+      margin-bottom: 18px; border: 1px solid #2a3550;
+    }
+    .toolbar { display: flex; gap: 10px; flex-wrap: wrap; }
+    button, input, select {
+      padding: 11px; border-radius: 8px; border: 1px solid #394765;
+      background: #0e1528; color: white; font-size: 15px;
+    }
+    button { cursor: pointer; background: var(--accent); color: #fff;
+      border: 0; font-weight: bold; }
+    button.secondary { background: #303c58; }
+    button.danger { background: #a83d55; }
+    input { min-width: 0; max-width: 100%; }
+    .toolbar button { flex: 1; }
+    .status { color: var(--muted); font-size: 13px; margin: 8px 0; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 570px; }
+    th, td { padding: 12px 10px; text-align: left;
+      border-bottom: 1px solid #303a51; }
+    th { color: var(--muted); font-size: 13px; }
+    .rank { color: #c9b7ff; font-weight: bold; }
+    .score { font-weight: bold; color: #c9b7ff; }
+    .edit-grid {
+      display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+      gap: 10px; margin: 12px 0;
+    }
+    .edit-grid input { width: 100%; }
+    h2 { margin-top: 0; }
+    .small { color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .hidden { display: none; }
+    footer { text-align: center; color: var(--muted); padding: 25px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🏆 LARTOS CUP</h1>
+    <p>FORTNITE DUOS • OFFICIAL LEADERBOARD</p>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <button id="langButton" class="secondary">🇬🇧 English</button>
+      <button id="adminButton">🔐 Admin</button>
+      <button id="refreshButton" class="secondary">↻ Actualiser</button>
+    </div>
+
+    <p id="status" class="status">Chargement du classement…</p>
+
+    <section class="panel">
+      <h2 id="leaderboardTitle">🏆 Classement général</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th id="rankHead">Place</th>
+              <th id="teamHead">Équipe</th>
+              <th id="placeHead">Points placement</th>
+              <th id="killsHead">Éliminations</th>
+              <th id="totalHead">Total</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard"></tbody>
+        </table>
+      </div>
+      <p id="emptyMessage" class="small">Aucune équipe pour le moment.</p>
+    </section>
+
+    <section class="scoring">
+      <h2 id="scoringTitle">📊 Barème des points</h2>
+      <p id="scoringDescription">
+        Les points de placement sont ajoutés aux points d'élimination.
+      </p>
+      <p id="placementRules" class="small"></p>
+      <p id="killRules"><strong>Élimination :</strong> 4 points par élimination.</p>
+    </section>
+
+    <section id="adminPanel" class="panel hidden">
+      <h2 id="adminTitle">⚙️ Administration</h2>
+      <p class="small" id="adminHelp">
+        Ajoute une équipe, puis indique sa place et ses éliminations.
+      </p>
+
+      <form id="teamForm">
+        <div class="edit-grid">
+          <input id="teamName" placeholder="Nom du duo" required maxlength="60">
+          <input id="placement" type="number" min="1" max="100"
+                 placeholder="Place (1-100)" required>
+          <input id="kills" type="number" min="0" max="999"
+                 placeholder="Éliminations" required>
+        </div>
+        <button type="submit" id="addButton">Ajouter le résultat</button>
+      </form>
+
+      <h3 id="teamsTitle">Modifier les résultats</h3>
+      <div id="adminTeams"></div>
+
+      <button id="logoutButton" class="secondary">Fermer l'administration</button>
+      <p class="small">
+        Attention : le code admin intégré au navigateur est seulement une
+        protection simple, pas une sécurité réelle.
+      </p>
+    </section>
+
+    <p class="small">
+      Les scores sont calculés automatiquement. Si Supabase n'est pas configuré,
+      ce site utilise uniquement le stockage local de ce navigateur.
+    </p>
+  </main>
+
+  <footer>© Lartos Cup • Fortnite Duos</footer>
+
+<script>
+  // 1. CONFIGURATION SUPABASE
+  // Remplace ces deux valeurs par celles de ton projet Supabase.
+  const SUPABASE_URL = "COLLE_ICI_URL_SUPABASE";
+  const SUPABASE_ANON_KEY = "COLLE_ICI_CLE_ANON_SUPABASE";
+
+  // 2. PARAMÈTRES DU SITE
+  const ADMIN_PIN = "1234";
+  const KILL_POINTS = 4;
+  const PLACEMENT_POINTS = [
+    65,56,52,48,44,40,38,36,34,32,30,28,26,24,22,20,
+    18,16,14,12,10,8,6,4,2
+  ];
+
+  const configured =
+    SUPABASE_URL.startsWith("https://") &&
+    !SUPABASE_URL.includes("COLLE_ICI") &&
+    SUPABASE_ANON_KEY.length > 20 &&
+    !SUPABASE_ANON_KEY.includes("COLLE_ICI");
+
+  const db = configured
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+
+  const STORAGE_KEY = "lartos-cup-results-v1";
+  let teams = [];
+  let english = false;
+  let isAdmin = false;
+  let busy = false;
+
+  const $ = id => document.getElementById(id);
+
+  function pointsForPlacement(place) {
+    const p = Number(place);
+    return p >= 1 && p <= PLACEMENT_POINTS.length
+      ? PLACEMENT_POINTS[p - 1] : 0;
+  }
+
+  function totalFor(team) {
+    return pointsForPlacement(team.placement) +
+      Number(team.kills || 0) * KILL_POINTS;
+  }
+
+  function sortTeams(list) {
+    return [...list].sort((a, b) =>
+      totalFor(b) - totalFor(a) ||
+      Number(a.placement) - Number(b.placement) ||
+      a.name.localeCompare(b.name)
+    );
+  }
+
+  function setStatus(message) {
+    $("status").textContent = message;
+  }
+
+  function localRead() {
+    try {
+      teams = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      if (!Array.isArray(teams)) teams = [];
+    } catch {
+      teams = [];
+    }
+  }
+
+  function localSave() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(teams));
+  }
+
+  // La table Supabase doit contenir une ligne avec id = 1 et state = JSON.
+  async function loadTeams() {
+    if (!db) {
+      localRead();
+      setStatus(english
+        ? "Local mode: configure Supabase to share scores."
+        : "Mode local : configure Supabase pour partager les scores.");
+      render();
+      return;
+    }
+
+    const { data, error } = await db
+      .from("lartos_state")
+      .select("state")
+      .eq("id", 1)
+      .maybeSingle();
+
+    if (error) {
+      setStatus("Erreur Supabase : " + error.message);
+      return;
+    }
+
+    teams = Array.isArray(data?.state?.teams) ? data.state.teams : [];
+    setStatus(english
+      ? "Connected to shared leaderboard."
+      : "Connecté au classement partagé.");
+    render();
+  }
+
+  async function saveTeams() {
+    if (busy) return;
+    busy = true;
+    render();
+
+    try {
+      if (!db) {
+        localSave();
+        setStatus(english
+          ? "Saved in this browser only."
+          : "Enregistré dans ce navigateur uniquement.");
+      } else {
+        const { error } = await db
+          .from("lartos_state")
+          .upsert({ id: 1, state: { teams } }, { onConflict: "id" });
+
+        if (error) throw error;
+        setStatus(english
+          ? "Shared leaderboard updated."
+          : "Classement partagé mis à jour.");
+      }
+    } catch (error) {
+      setStatus((english ? "Save failed: " : "Échec de l'enregistrement : ")
+        + error.message);
+    } finally {
+      busy = false;
+      render();
+    }
+  }
+
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;",
+      '"': "&quot;", "'": "&#39;"
+    })[char]);
+  }
+
+  function render() {
+    const sorted = sortTeams(teams);
+    $("leaderboard").innerHTML = sorted.map((team, index) => `
+      <tr>
+        <td class="rank">${index + 1}</td>
+        <td>${escapeHTML(team.name)}</td>
+        <td>${pointsForPlacement(team.placement)}</td>
+        <td>${Number(team.kills || 0)}</td>
+        <td class="score">${totalFor(team)}</td>
+      </tr>
+    `).join("");
+
+    $("emptyMessage").classList.toggle("hidden", sorted.length > 0);
+    $("adminPanel").classList.toggle("hidden", !isAdmin);
+    $("adminTeams").innerHTML = isAdmin ? sorted.map(team => `
+      <div class="panel">
+        <strong>${escapeHTML(team.name)}</strong>
+        <div class="edit-grid">
+          <input type="number" min="1" max="100"
+            aria-label="Placement"
+            id="p-${team.id}" value="${Number(team.placement)}">
+          <input type="number" min="0" max="999"
+            aria-label="Eliminations"
+            id="k-${team.id}" value="${Number(team.kills)}">
+          <button onclick="updateTeam('${team.id}')">
+            ${english ? "Save" : "Enregistrer"}
+          </button>
+          <button class="danger" onclick="deleteTeam('${team.id}')">
+            ${english ? "Delete" : "Supprimer"}
+          </button>
+        </div>
+      </div>
+    `).join("") : "";
+
+    $("langButton").textContent = english ? "🇫🇷 Français" : "🇬🇧 English";
+    $("leaderboardTitle").textContent = english
+      ? "🏆 Overall leaderboard" : "🏆 Classement général";
+    $("rankHead").textContent = english ? "Rank" : "Place";
+    $("teamHead").textContent = english ? "Team" : "Équipe";
+    $("placeHead").textContent = english ? "Placement points" : "Points placement";
+    $("killsHead").textContent = english ? "Eliminations" : "Éliminations";
+    $("totalHead").textContent = english ? "Total" : "Total";
+    $("emptyMessage").textContent = english
+      ? "No teams yet." : "Aucune équipe pour le moment.";
+    $("scoringTitle").textContent = english
+      ? "📊 Scoring system" : "📊 Barème des points";
+    $("scoringDescription").textContent = english
+      ? "Placement points are added to elimination points."
+      : "Les points de placement sont ajoutés aux points d'élimination.";
+    $("placementRules").textContent = english
+      ? "Placement: " + PLACEMENT_POINTS.map((p,i) => (i+1) + "th: " + p).join(" • ")
+      : "Placement : " + PLACEMENT_POINTS.map((p,i) => (i+1) + "e : " + p).join(" • ");
+    $("killRules").textContent = english
+      ? "Elimination: 4 points per elimination."
+      : "Élimination : 4 points par élimination.";
+    $("adminTitle").textContent = english ? "⚙️ Admin panel" : "⚙️ Administration";
+    $("adminHelp").textContent = english
+      ? "Add a team, then enter its placement and eliminations."
+      : "Ajoute une équipe, puis indique sa place et ses éliminations.";
+    $("teamName").placeholder = english ? "Duo name" : "Nom du duo";
+    $("placement").placeholder = english ? "Placement (1-100)" : "Place (1-100)";
+    $("kills").placeholder = english ? "Eliminations" : "Éliminations";
+    $("addButton").textContent = english ? "Add result" : "Ajouter le résultat";
+    $("teamsTitle").textContent = english ? "Edit results" : "Modifier les résultats";
+    $("logoutButton").textContent = english
+      ? "Close admin panel" : "Fermer l'administration";
+    $("adminButton").textContent = isAdmin
+      ? (english ? "Admin enabled" : "Admin activé")
+      : (english ? "🔐 Admin" : "🔐 Admin");
+  }
+
+  $("teamForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    if (!isAdmin) return;
+
+    const name = $("teamName").value.trim();
+    const placement = Number($("placement").value);
+    const kills = Number($("kills").value);
+
+    if (!name || !Number.isInteger(placement) || placement < 1 ||
+        placement > 100 || !Number.isInteger(kills) || kills < 0) {
+      alert(english ? "Check the entered values." : "Vérifie les valeurs saisies.");
+      return;
+    }
+
+    teams.push({
+      id: crypto.randomUUID(),
+      name,
+      placement,
+      kills
+    });
+
+    $("teamForm").reset();
+    await saveTeams();
+  });
+
+  window.updateTeam = async id => {
+    if (!isAdmin) return;
+    const team = teams.find(t => t.id === id);
+    if (!team) return;
+
+    const placement = Number($("p-" + id).value);
+    const kills = Number($("k-" + id).value);
+
+    if (!Number.isInteger(placement) || placement < 1 || placement > 100 ||
+        !Number.isInteger(kills) || kills < 0) {
+      alert(english ? "Invalid values." : "Valeurs invalides.");
+      return;
+    }
+
+    team.placement = placement;
+    team.kills = kills;
+    await saveTeams();
+  };
+
+  window.deleteTeam = async id => {
+    if (!isAdmin) return;
+    if (!confirm(english ? "Delete this team?" : "Supprimer cette équipe ?")) return;
+    teams = teams.filter(t => t.id !== id);
+    await saveTeams();
+  };
+
+  $("adminButton").addEventListener("click", () => {
+    if (isAdmin) return;
+    const pin = prompt(english ? "Admin code:" : "Code administrateur :");
+    if (pin === ADMIN_PIN) {
+      isAdmin = true;
+      render();
+    } else if (pin !== null) {
+      alert(english ? "Incorrect code." : "Code incorrect.");
+    }
+  });
+
+  $("logoutButton").addEventListener("click", () => {
+    isAdmin = false;
+    render();
+  });
+
+  $("langButton").addEventListener("click", () => {
+    english = !english;
+    render();
+  });
+
+  $("refreshButton").addEventListener("click", loadTeams);
+
+  loadTeams();
+
+  // Actualise automatiquement le classement partagé toutes les 10 secondes.
+  if (db) {
+    setInterval(async () => {
+      if (busy) return;
+      const { data, error } = await db
+        .from("lartos_state")
+        .select("state")
+        .eq("id", 1)
+        .maybeSingle();
+
+      if (!error && Array.isArray(data?.state?.teams)) {
+        teams = data.state.teams;
+        render();
+      }
+    }, 10000);
+  }
+</script>
+</body>
+</html>
